@@ -1,0 +1,13 @@
+dc_id,name,location,region,primary_role,daily_capacity_units,criticality,avg_inventory_doh,vulnerability_focus
+DC-NE-01,Edison Hub,Edison NJ,North America,Last-Mile Fulfillment,45000,High,2.5,Port Congestion/Winter Storms
+DC-WE-02,Fontana Gateway,Fontana CA,North America,Import De-consolidation,110000,Critical,4.0,Seismic/Labor Strikes
+DC-MW-03,Chicago Central,Joliet IL,North America,Cross-Docking,75000,Medium,3.2,Rail Disruption/Blizzards
+DC-SE-04,Savannah Port Side,Savannah GA,North America,Regional Distribution,55000,High,5.1,Hurricane/Coastal Flooding
+DC-MX-05,Monterrey Nearshore,Monterrey MX,Latin America,Manufacturing Support,40000,High,6.0,Border Delays/Tariff Shifts
+DC-EU-06,Rotterdam Europort,Rotterdam NL,Europe,Global Gateway,95000,Critical,4.5,North Sea Surges/Geopolitics
+DC-EU-07,Gdynia Logistics,Gdynia PL,Europe,Regional Distribution,30000,Medium,7.2,Geopolitical Tension/Energy Costs
+DC-AS-08,Shanghai West,Shanghai CN,Asia,Export Consolidation,150000,Critical,3.0,Trade Policy/Regulatory Shifts
+DC-AS-09,Ho Chi Minh South,HCMC VN,Asia,Manufacturing Support,50000,High,5.5,Monsoon/Infrastructure Strain
+DC-AS-10,Chennai Auto-Hub,Chennai IN,Asia,Parts Distribution,35000,Medium,8.0,Cyclones/Labor Unrest
+DC-ME-11,Jebel Ali Freezone,Dubai UAE,Middle East,Transshipment,85000,High,10.0,Maritime Chokepoints/Geopolitics
+DC-UK-12,Midlands Magna,Lutterworth UK,Europe,E-comm Fulfillment,42000,Medium,4.0,Customs Friction/Labor Shortage
