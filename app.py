@@ -39,6 +39,15 @@ if df is not None:
     if news_headline:
         if st.button("Run AI Risk Assessment"):
             # Your existing loop for AI analysis goes here...
+    st.sidebar.success("✅ DC Master Data Loaded from Repository")
+    st.sidebar.write(f"Total Sites: {len(df)}")
+    
+    news_headline = st.text_input("🚨 Enter Live News Headline / Weather Alert:", 
+                                  placeholder="e.g., Major blizzard projected for the Northeast Corridor")
+
+    if news_headline:
+        if st.button("Run AI Risk Assessment"):
+            # Your existing loop for AI analysis goes here...
         
         # We'll analyze each DC and display results
         for index, row in df.iterrows():
