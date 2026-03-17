@@ -18,19 +18,18 @@ def query_llm(payload):
     return response.json()
 
 # 3. Data Ingestion (Automatic from GitHub)
-@st.cache_data # This keeps the app fast by not re-reading the file every second
+@st.cache_data
 def load_internal_data():
     try:
         return pd.read_csv("distribution_centers.csv")
     except FileNotFoundError:
-        st.error("Error: 'distribution_centers.csv' not found in the repository.")
         return None
 
 df = load_internal_data()
 
 # 4. Main Interface
 if df is not None:
-    st.sidebar.success("✅ DC Master Data Loaded from Repository")
+    st.sidebar.success("✅ DC Master Data Loaded")
     st.sidebar.write(f"Total Sites: {len(df)}")
     
     news_headline = st.text_input("🚨 Enter Live News Headline / Weather Alert:", 
@@ -38,15 +37,23 @@ if df is not None:
 
     if news_headline:
         if st.button("Run AI Risk Assessment"):
-            # Your existing loop for AI analysis goes here...
-    st.sidebar.success("✅ DC Master Data Loaded from Repository")
-    st.sidebar.write(f"Total Sites: {len(df)}")
-    
-    news_headline = st.text_input("🚨 Enter Live News Headline / Weather Alert:", 
-                                  placeholder="e.g., Major blizzard projected for the Northeast Corridor")
-
-    if news_headline:
-        if st.button("Run AI Risk Assessment"):
+            st.subheader("Automated Site Impact Analysis")
+            
+            # This loop must be indented inside the button 'if'
+            for index, row in df.iterrows():
+                prompt = f"""
+                [ROLE] Senior Supply Chain Risk Controller. 
+                [DC] {row['name']} in {row['location']}. Criticality: {row['criticality']}. DOH: {row['avg_inventory_doh']}.
+                [EVENT] {news_headline}
+                [TASK] Provide a JSON response with: 'risk_score' (1-10), 'reasoning' (1 sentence), and 'action' (1 sentence).
+                JSON:"""
+                
+                output = query_llm({"inputs": prompt, "parameters": {"max_new_tokens": 150}})
+                
+                with st.expander(f"{row['name']} - {row['location']}"):
+                    st.write(output[0]['generated_text'].split("JSON:")[-1])
+else:
+    st.error("🚨 Error: 'distribution_centers.csv' not found in your GitHub repository. Please ensure the file is uploaded to the same folder as app.py.")
             # Your existing loop for AI analysis goes here...
         
         # We'll analyze each DC and display results
