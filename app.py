@@ -17,19 +17,28 @@ def query_llm(payload):
     response = requests.post(HF_API_URL, headers=headers, json=payload)
     return response.json()
 
-# 3. Sidebar: Data Ingestion
-st.sidebar.header("Data Ingestion")
-uploaded_file = st.sidebar.file_uploader("Upload DC Master Data (CSV)", type="csv")
+# 3. Data Ingestion (Automatic from GitHub)
+@st.cache_data # This keeps the app fast by not re-reading the file every second
+def load_internal_data():
+    try:
+        return pd.read_csv("distribution_centers.csv")
+    except FileNotFoundError:
+        st.error("Error: 'distribution_centers.csv' not found in the repository.")
+        return None
 
-# 4. Main Interface: News Trigger
-news_headline = st.text_input("🚨 Enter Live News Headline / Weather Alert:", 
-                              placeholder="e.g., Massive labor strike at Port of Long Beach expected Tuesday")
+df = load_internal_data()
 
-if uploaded_file and news_headline:
-    df = pd.read_csv(uploaded_file)
+# 4. Main Interface
+if df is not None:
+    st.sidebar.success("✅ DC Master Data Loaded from Repository")
+    st.sidebar.write(f"Total Sites: {len(df)}")
     
-    if st.button("Run AI Risk Assessment"):
-        st.subheader("Automated Site Impact Analysis")
+    news_headline = st.text_input("🚨 Enter Live News Headline / Weather Alert:", 
+                                  placeholder="e.g., Major blizzard projected for the Northeast Corridor")
+
+    if news_headline:
+        if st.button("Run AI Risk Assessment"):
+            # Your existing loop for AI analysis goes here...
         
         # We'll analyze each DC and display results
         for index, row in df.iterrows():
